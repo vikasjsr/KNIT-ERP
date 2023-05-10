@@ -21,16 +21,6 @@ export const login = catchAsyncError(async (req, res, next) => {
 
   //   sendToken(res, user, "Welcome back", 200);
   const token = user.getJWTToken();
-
-  // const options = {
-    // expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
-    // httpOnly: true,
-    // secure: true,
-    // sameSite: "none",
-  // };
-  // console.log({
-  //   token
-  // })
   res
     .status(200)
     .cookie('token', token, { httpOnly: true })

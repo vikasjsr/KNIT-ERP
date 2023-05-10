@@ -6,12 +6,9 @@ import { Navbar, Sidebar, ThemeSettings } from "../componentsCommon";
 import {
   CreateAdmin,
   GetAdmin,
-  DeletAdmin,
   AddFaculty,
   GetFaculty,
-  DeleteFaculty,
   AddStudent,
-  DeleteStudent,
   GetStudent,
   AddDepartment,
   AddSubject,
@@ -21,108 +18,7 @@ import {
 } from "./pages";
 
 import { useStateContext } from "../../context/contextProvider";
-
-import { AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock } from 'react-icons/ai';
-import { MdPersonRemove } from 'react-icons/md';
-import {BsPersonFillAdd} from 'react-icons/bs'
-import { IoMdContacts } from 'react-icons/io';
-import {GoTasklist} from 'react-icons/go'
-
-const links = [
-  {
-    title: 'Manage Admin',
-    links: [
-      {
-        name: 'Create Admin',
-        icon: <BsPersonFillAdd />,
-        path:'createadmin'
-      },
-      {
-        name: 'Get Admin',
-        icon: <GoTasklist />,
-        path:'getadmin'
-      },
-      {
-        name: 'Delete Admin',
-        icon: <MdPersonRemove />,
-        path:'deleteadmin'
-      },
-    ],
-  },
-  {
-    title: 'Manage Faculty',
-    links: [
-      {
-        name: 'Add Faculty',
-        icon: <AiOutlineShoppingCart />,
-        path:'addfaculty'
-      },
-      {
-        name: 'Get All Faculty',
-        icon: <IoMdContacts />,
-        path:'getfaculty'
-
-      },
-      {
-        name: 'Delete Faculty',
-        icon: <IoMdContacts />,
-        path:'deletefaculty'
-      },
-    ],
-  },
-  {
-    title: 'Manage Students',
-    links: [
-      {
-        name: 'Add Student',
-        icon: <AiOutlineStock />,
-        path:'addstudent'
-      },
-      {
-        name: 'Get Student',
-        icon: <AiOutlineAreaChart />,
-        path:'getstudent'
-      },
-
-      {
-        name: 'Delete Student',
-        icon: <AiOutlineBarChart />,
-        path:'deletestudent'
-      },
-      
-    ],
-  },
-  {
-    title: 'Manage Others',
-    links: [
-      {
-        name: 'Add Department',
-        icon: <AiOutlineStock />,
-        path:'adddepartment'
-      },
-      {
-        name: 'Add Subject',
-        icon: <AiOutlineAreaChart />,
-        path:'addsubject'
-      },
-      {
-        name: 'Get Subject',
-        icon: <AiOutlineAreaChart />,
-        path:'getsubject'
-      },
-      {
-        name: 'Create Notice',
-        icon: <AiOutlineBarChart />,
-        path:'createnotice'
-      },
-      {
-        name: 'Get Notice',
-        icon: <AiOutlineBarChart />,
-        path:'getnotice'
-      },      
-    ],
-  },
-];
+import { links } from "./data/dummy";
 
 const AdminHome = () => {
   const {
@@ -134,7 +30,7 @@ const AdminHome = () => {
   } = useStateContext();
 
   return (
-    <div className="relative flex dark:bg-main-dark-bg">
+    <div className="relative flex dark:bg-main-dark-bg overflow-x-hidden">
       <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
         <TooltipComponent content="Settings" position="Top">
           <button
@@ -149,11 +45,11 @@ const AdminHome = () => {
       </div>
       {activeMenu ? (
         <div className="fixed bg-white w-72 sidebar dark:bg-secondary-dark-bg ">
-          <Sidebar links={links}/>
+          <Sidebar links={links} />
         </div>
       ) : (
         <div className="w-0 dark:bg-secondary-dark-bg">
-          <Sidebar links={links}/>
+          <Sidebar links={links} />
         </div>
       )}
 
@@ -173,19 +69,16 @@ const AdminHome = () => {
 
               <Route path="/createadmin" element={<CreateAdmin />} />
               <Route path="/getadmin" element={<GetAdmin />} />
-              <Route path="/deleteadmin" element={<DeletAdmin />} />
 
               {/* manage faculty by admin */}
 
               <Route path="/addfaculty" element={<AddFaculty />} />
               <Route path="/getfaculty" element={<GetFaculty />} />
-              <Route path="/deletefaculty" element={<DeleteFaculty />} />
 
               {/* manage students by admin*/}
 
               <Route path="/addstudent" element={<AddStudent />} />
               <Route path="/getstudent" element={<GetStudent />} />
-              <Route path="/deletestudent" element={<DeleteStudent />} />
 
               {/* manage others by admin */}
 

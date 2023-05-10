@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, useNavigate } from "react-router-dom";
-// import AdminHome from "../admin/AdminHome";
 import login from "./login.jpg";
 import AxiosInstance from "../../utils/axios"
-// import FacultyHome from "../faculty/FacultyHome"
-// import StudentHome from "../student/StudentHome"
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const role = "admin";
+
+  useEffect(() => {
+    if(window.location.pathname !== "/login") return;
+    (async () => {
+      try{
+        const resp = await AxiosInstance.get("/api/v1/me");
+        console.log(resp)
+        navigate(`/dashboard/${resp.data.user.role}`);
+      }
+      catch(err){
+
+      }
+    })()
+  }, []);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -20,6 +31,8 @@ const Login = () => {
         .then((res) => {
           console.log(res.data.user);
           navigate(`/dashboard/${res.data.user.role}`);
+          toast(`${res.data.message}`);
+
         })
         .catch((e) => {
           alert("wrong details");
@@ -47,43 +60,43 @@ const Login = () => {
                 
                 {/* <!-- Email input --> */}
                 <div class="relative mb-6" data-te-input-wrapper-init>
+                  <label
+                    for="email"
+                    // class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
+                  >
+                    Email address
+                  </label>
                   <input
                     type="text"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
                     }}
-                    class="peer block min-h-[auto] w-full rounded border-2 border-blue-200 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    class="peer block min-h-[auto] w-full rounded border-2 border-blue-200 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear  dark:text-neutral-200 dark:placeholder:text-neutral-200 "
                     id="email"
-                    placeholder="Email address"
+                    placeholder="Enter a valid mail"
                   />
-                  <label
-                    for="email"
-                    class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
-                  >
-                    Email address
-                  </label>
                 </div>
 
                 {/* <!-- Password input --> */}
                     
                 <div class="relative mb-6" data-te-input-wrapper-init>
+                  <label
+                    for="password"
+                    // class="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out  dark:text-neutral-200 dark:peer-focus:text-neutral-200"
+                  >
+                    Password
+                  </label>
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
                     }}
-                    class="peer block min-h-[auto] w-full rounded border-2 border-blue-200 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    class="peer block min-h-[auto] w-full rounded border-2 border-blue-200 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear  dark:text-neutral-200 dark:placeholder:text-neutral-200 "
                     id="password"
-                    placeholder="Password"
+                    placeholder="Enter valid password"
                   />
-                  <label
-                    for="password"
-                    class="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
-                  >
-                    Password
-                  </label>
                 </div>
 
                 <div class="text-center lg:text-left">

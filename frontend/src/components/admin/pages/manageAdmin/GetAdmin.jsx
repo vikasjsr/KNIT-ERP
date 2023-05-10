@@ -1,28 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  GridComponent,
-  ColumnsDirective,
-  ColumnDirective,
-  Resize,
-  Sort,
-  ContextMenu,
-  Filter,
-  Page,
-  ExcelExport,
-  PdfExport,
-  Edit,
-  Search,
-  Toolbar,
-  Inject,
-} from "@syncfusion/ej2-react-grids";
-
 import { Header } from "../../../componentsCommon";
-import { employeesData, employeesGrid } from "../../data/dummy";
 import AxiosInstance from "../../../../utils/axios";
+import Modal from "../../../componentsCommon/Modal";
 
 const GetAdmin = () => {
   const [getValue, setValue] = useState(false);
   const [previousData, setData] = useState([]);
+  const [EditModalOpen ,setEditModalOpen] = useState(false);
 
   const getalldata = async (e) => {
     // The preventDefault() method cancels the event if it is cancelable, meaning that the default action that belongs to the event will not occur. For example, this can be useful when: Clicking on a "Submit" button, prevent it from submitting a form. Clicking on a link, prevent the link from following the URL.
@@ -41,13 +25,17 @@ const GetAdmin = () => {
     getalldata();
   }, []);
 
+  const handleEditModalopen = () => {
+      setEditModalOpen(true);
+  }
+
   return (
+  <>
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 dark:bg-main-dark-bg text-white rounded-3xl">
       <Header
-        title="Get All Admin"
+        title="Modify Admin"
         description="To get the list of all the admin"
       />
-      {/* <GetTemplate employeesData={employeesData}  employeesGrid={employeesGrid}/> */}
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="button"
@@ -63,38 +51,92 @@ const GetAdmin = () => {
           </>
         ) : (
           <>
-            <div>
-              {previousData.map((admin, index) => {
-                return (
-                  <div className="text-blue-700" key={index}>
-                    <h3>{admin.email}</h3>
-                    <h3>{admin._id}</h3>
+            <div className="flex flex-col">
+              <div className="overflow-x-auto">
+                <div className="p-1.5 w-full inline-block align-middle">
+                  <div className="overflow-hidden border rounded-lg">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                          >
+                            ID
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                          >
+                            Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+                          >
+                            Edit
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+                          >
+                            Delete
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {previousData.map((admin, key, index) => {
+                            return(
+                              <tr>
+                            <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                              {key + 1}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              {admin.email}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              {admin._id}
+                            </td>
+                            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                              <button
+                                className="text-green-500 hover:text-green-700"
+                                onClick={handleEditModalopen}
+                              >
+                                Edit
+                              </button>
+                            </td>
+                            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                              <a
+                                className="text-red-500 hover:text-red-700"
+                                href="#"
+                              >
+                                Delete
+                              </a>
+                            </td>
+                          </tr>
+                            )
+                        })}
+                      </tbody>
+                    </table>
                   </div>
-                );
-              })}
+                </div>
+              </div>
             </div>
-          
-            <GridComponent
-              dataSource={previousData}
-              width="auto"
-              allowPaging
-              allowSorting
-              pageSettings={{ pageCount: 5 }}
-              // editSettings={editing}
-              toolbar={["Search"]}
-            >
-              <ColumnsDirective>
-                {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-                {previousData.map((admin, index) => (
-                  <ColumnDirective key={index} {...admin} />
-                ))}
-              </ColumnsDirective>
-              <Inject services={[Search, Page, Toolbar]} />
-            </GridComponent>
           </>
         )}
       </div>
     </div>
+         <Modal ModalTitle={"Edit Admin Details"} ModalDescription={"As per requirement edit details"} open={EditModalOpen} setOpen={setEditModalOpen} >
+          <div>Hello World</div>
+         </Modal>
+
+    </>
   );
 };
 

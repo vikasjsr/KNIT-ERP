@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
-import { AiOutlineMenu, AiOutlineLogout } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { AiOutlineMenu } from "react-icons/ai";
 import { BsChatLeft } from "react-icons/bs";
+import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import avatar from "../admin/data/avatar.jpg";
 import { useStateContext } from "../../context/contextProvider";
-import AxiosInstance from "../../utils/axios"
-import {toast} from 'react-toastify';
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -27,9 +25,6 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 );
 
 const Navbar = () => {
-
-  const navigate = useNavigate();
-
   const {
     activeMenu,
     setActiveMenu,
@@ -39,12 +34,6 @@ const Navbar = () => {
     setScreenSize,
     currentColor,
   } = useStateContext();
-
-  const handleLogout = async() => {
-      const resp = await AxiosInstance.get("/api/v1/logout");
-      navigate('/login');
-      toast(`${resp.data.message}`);
-  }
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -83,38 +72,35 @@ const Navbar = () => {
           color={currentColor}
           icon={<BsChatLeft />}
         />
+        <NavButton
+          title="Notification"
+          dotColor="rgb(254, 201, 15)"
+          customFunc={() => handleClick("notification")}
+          color={currentColor}
+          icon={<RiNotification3Line />}
+        />
 
         <div>
           <TooltipComponent content="Profile" position="BottomCenter">
             <div
-              className="flex items-center gap-2 p-1 rounded-lg cursor-pointer hover:bg-light-gray"
-              onClick={() => {
-                console.log("profile section");
-              }}
-            >
-              <img
-                className="w-8 h-8 p-1 rounded-full ring-2 ring-#03C9D7 dark:ring-gray-500"
-                src={avatar}
-                alt="user-profile"
-              />
-              <p>
-                <span className="text-gray-400 text-14">Hi,</span>{" "}
-                <span className="ml-1 font-bold text-gray-400 text-14">
-                  Vikas
-                </span>
-              </p>
-              <MdKeyboardArrowDown className="text-gray-400 text-14" />
-            </div>
+            className="flex items-center gap-2 p-1 rounded-lg cursor-pointer hover:bg-light-gray"
+            onClick={() => {console.log('profile section')}}
+          >
+            <img
+              className="w-8 h-8 p-1 rounded-full ring-2 ring-#03C9D7 dark:ring-gray-500"
+              src={avatar}
+              alt="user-profile"
+            />
+            <p>
+              <span className="text-gray-400 text-14">Hi,</span>{" "}
+              <span className="ml-1 font-bold text-gray-400 text-14">
+                Vikas
+              </span>
+            </p>
+            <MdKeyboardArrowDown className="text-gray-400 text-14" />
+          </div>
           </TooltipComponent>
         </div>
-
-        <NavButton
-          title="Logout"
-          customFunc = {handleLogout}
-          color={currentColor}
-          icon={<AiOutlineLogout />}
-        />
-
       </div>
     </div>
   );

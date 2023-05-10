@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import { Header } from "../../../componentsCommon";
 import AxiosInstance from "../../../../utils/axios";
+import {toast} from 'react-toastify';
 
 const AddFaculty = () => {
 
@@ -20,7 +21,7 @@ const AddFaculty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await AxiosInstance.post("/api/v1/addfaculty", initial)
+      const resp = await AxiosInstance.post("/api/v1/addfaculty", initial)
       .then((res) =>{
         final(
           {
@@ -31,9 +32,10 @@ const AddFaculty = () => {
           department: "",
         }
         )
-      }
-        // console.log(res)
+      }   
       );
+      console.log(resp);
+      toast("Faculty Created Successfully");
     } catch (err) {
       console.log(err);
     }

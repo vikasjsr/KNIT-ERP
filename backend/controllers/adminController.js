@@ -172,7 +172,6 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 });
 
 // add department
-
 export const addDepartment = catchAsyncError(async (req, res, next) => {
   const { HOD, departmentCode, departmentName } = req.body;
 
@@ -202,7 +201,6 @@ export const addDepartment = catchAsyncError(async (req, res, next) => {
 });
 
 // addsubject to department 
-
 export const addSubjectToDepat = catchAsyncError(async (req, res, next) => {
 
   const { departmentCode,SubjectID } = req.body;
@@ -269,7 +267,8 @@ export const getAllAdmins = catchAsyncError(async (req, res, next) => {
 
 // get all faculties by dept.
 export const getAllFacultiesDept = catchAsyncError(async (req, res, next) => {
-  const {department} = req.body;
+  // console.log(req)
+  const {department} = req.query;
   if(!department) return next(new ErrorHandler("Please enter the department", 400));
 
   const faculties = await Faculty.find({department});
@@ -283,7 +282,7 @@ export const getAllFacultiesDept = catchAsyncError(async (req, res, next) => {
 // get all students by dept.
 export const getAllStudentsDept = catchAsyncError(async (req, res, next) => {
 
-  const {department} = req.body;
+  const {department} =  req.query;
   if(!department) return next(new ErrorHandler("Please enter the department", 400));
   
   const students = await Student.find({department});

@@ -3,29 +3,25 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useStateContext } from "./context/contextProvider";
 import MainHome from "./components/MainHome";
 import Login from "./components/login/Login";
-import { Toaster } from "react-hot-toast";
 import "./App.css";
-import Test from "./test/Test";
 import AdminHome from "./components/admin/AdminHome";
 import FacultyHome from "./components/faculty/FacultyHome";
 import StudentHome from "./components/student/StudentHome";
 import AxiosInstance from "./utils/axios";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-
   useEffect(() => {
-    if(window.location.pathname === "/login") return;
+    if (window.location.pathname === "/login") return;
     (async () => {
-      try{
+      try {
         const resp = await AxiosInstance.get("/api/v1/me");
-      // console.log(resp.status)
-      }
-      catch(err){
-        console.log("Not logged in")
+      } catch (err) {
+        console.log("Not logged in");
         window.location.pathname = "/login";
-
       }
-    })()
+    })();
   }, []);
 
   const {
@@ -53,11 +49,9 @@ const App = () => {
           <Route path="/dashboard/faculty/*" element={<FacultyHome />} />
 
           <Route path="/dashboard/student/*" element={<StudentHome />} />
-
-          <Route path="/test" element={<Test />} />
         </Routes>
-        <Toaster />
       </BrowserRouter>
+      <ToastContainer />
     </div>
   );
 };

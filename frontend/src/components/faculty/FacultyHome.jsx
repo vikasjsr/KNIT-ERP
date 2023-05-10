@@ -21,7 +21,7 @@ const FacultyHome = () => {
   } = useStateContext();
 
   return (
-    <div className="relative flex dark:bg-main-dark-bg">
+    <div className="relative flex dark:bg-main-dark-bg overflow-x-hidden">
       <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
         <TooltipComponent content="Settings" position="Top">
           <button
@@ -54,15 +54,10 @@ const FacultyHome = () => {
 
         <div>
           <div>
-            {themeSettings && <ThemeSettings />}
-            This is faculty page
-            
+            {themeSettings && <ThemeSettings />}   
             <Routes>
-
-
-
-              {/* <Route path="/takeattendence" element={<TakeAttendence />} />
-              <Route path="/uploadmarks" element={<UploadMarks />} /> */}
+              <Route path="/takeattendence" element={<TakeAttendence />} />
+              <Route path="/uploadmarks" element={<UploadMarks />} />
               {/* <Route path="/getstudents" element={<GetStudent />} /> */}
             </Routes>
           </div>

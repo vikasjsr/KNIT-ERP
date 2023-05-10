@@ -6,10 +6,12 @@ const router = express.Router();
 
 // user login check
 router.get('/me', isAuthenticated, (req,res)=> {
+
     res.send({
         success : true,
         message : 
-        "User logged in"
+        "User logged in",
+        user : req.admin
     })
 })
 
