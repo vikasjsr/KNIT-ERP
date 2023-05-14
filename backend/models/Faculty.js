@@ -21,6 +21,7 @@ const faculty = new mongoose.Schema({
   },
   role: {
     type: String,
+    default:"faculty"
   },
 
   avatar: {

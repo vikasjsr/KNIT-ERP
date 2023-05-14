@@ -6,8 +6,8 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import avatar from "../admin/data/avatar.jpg";
 import { useStateContext } from "../../context/contextProvider";
-import AxiosInstance from "../../utils/axios"
-import {toast} from 'react-toastify';
+import AxiosInstance from "../../utils/axios";
+import { toast } from "react-toastify";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -27,7 +27,6 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 );
 
 const Navbar = () => {
-
   const navigate = useNavigate();
 
   const {
@@ -40,11 +39,11 @@ const Navbar = () => {
     currentColor,
   } = useStateContext();
 
-  const handleLogout = async() => {
-      const resp = await AxiosInstance.get("/api/v1/logout");
-      navigate('/login');
-      toast(`${resp.data.message}`);
-  }
+  const handleLogout = async () => {
+    const resp = await AxiosInstance.get("/api/v1/logout");
+    navigate("/login");
+    toast(`${resp.data.message}`);
+  };
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -110,11 +109,10 @@ const Navbar = () => {
 
         <NavButton
           title="Logout"
-          customFunc = {handleLogout}
+          customFunc={handleLogout}
           color={currentColor}
           icon={<AiOutlineLogout />}
         />
-
       </div>
     </div>
   );

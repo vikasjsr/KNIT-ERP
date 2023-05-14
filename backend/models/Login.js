@@ -4,6 +4,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const login = new mongoose.Schema({
+  name: {
+    type: String,
+  },
   email: {
     type: String,
     required: [true, "Please enter your email"],

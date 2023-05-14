@@ -1,13 +1,14 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
 import { Header } from "../../../componentsCommon";
 
 import AxiosInstance from "../../../../utils/axios";
 
 const GetStudent = () => {
-
   const [getValue, setValue] = useState(true);
   const [previousData, setData] = useState([]);
   const [branch, setBranch] = useState("Select a branch");
+  const [year, setYear] = useState("Select Year");
+
   const getalldata = async (e) => {
     // The preventDefault() method cancels the event if it is cancelable, meaning that the default action that belongs to the event will not occur. For example, this can be useful when: Clicking on a "Submit" button, prevent it from submitting a form. Clicking on a link, prevent the link from following the URL.
     if (branch === "Select a branch") {
@@ -15,8 +16,11 @@ const GetStudent = () => {
       return;
     }
     try {
-      const res = await AxiosInstance.get('/api/v1/studentbydept?department='+branch)
-      console.log(res.data.students);
+      // 
+      const res = await AxiosInstance.get(
+        `/api/v1/studentbydept?department=${branch}&year=${year}` 
+      );
+      console.log(res);
       setData(res.data.students);
       setValue(!getValue);
     } catch (error) {
@@ -37,8 +41,8 @@ const GetStudent = () => {
             className={`block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none :border-gray-500`}
             id="grid-state"
             value={branch}
-            onChange={e => {
-              setBranch(e.target.value)
+            onChange={(e) => {
+              setBranch(e.target.value);
             }}
           >
             <option default disabled>
@@ -48,7 +52,35 @@ const GetStudent = () => {
             <option>Mechanical</option>
             <option>Electrical</option>
             <option>ECE</option>
-            <option>Civil</option>
+            <option>civil</option>
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg
+              className="fill-current h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="relative w-60">
+          <select
+            className={`block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none :border-gray-500`}
+            id="grid-state"
+            value={year}
+            onChange={(e) => {
+              setYear(e.target.value);
+            }}
+          >
+            <option default disabled>
+              Select year
+            </option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
             <svg
@@ -156,7 +188,7 @@ const GetStudent = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default GetStudent
+export default GetStudent;

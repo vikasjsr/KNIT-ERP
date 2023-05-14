@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { getAllUsers, changePasswordFaculty } from "../controllers/facultyControllers.js"
+import { getAllUsers, changePasswordFaculty,markAttendence } from "../controllers/facultyControllers.js"
 import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
@@ -13,5 +13,8 @@ router.route("/faculty/changepassword").put(isAuthenticated, changePasswordFacul
 
 // upload marks 
 
+
+// mark attendance
+router.route("/faculty/markAttendence").post(isAuthenticated, markAttendence);
 
 export default router;

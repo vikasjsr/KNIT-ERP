@@ -1,18 +1,17 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Header } from "../../../componentsCommon";
 import AxiosInstance from "../../../../utils/axios";
+import { toast } from "react-toastify";
 
 const AddStudent = () => {
-
-  const [initial, final] = useState({  
+  const [initial, final] = useState({
     email: "",
     password: "",
-    role: "",
     department: "",
     year: "",
   });
 
-  const { password, email, role, department, year } = initial;
+  const { password, email, department, year } = initial;
 
   const dark = "dark:bg-main-dark-bg dark:text-white";
   const labelDark = "dark:bg-secondary-dark-bg dark:text-white";
@@ -20,18 +19,17 @@ const AddStudent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await AxiosInstance.post("/api/v1/addstudent", initial)
-      .then((res) =>{
-        final({  
-          email: "",
-          password: "",
-          role: "",
-          department: "",
-          year: "",
-        })
-      }
-        // console.log(res)
+      await AxiosInstance.post("/api/v1/addstudent", initial).then(
+        (res) => {
+          final({
+            email: "",
+            password: "",
+            department: "",
+            year: "",
+          });
+        }
       );
+      toast("Student Created Successfully");
     } catch (err) {
       console.log(err);
     }
@@ -67,22 +65,35 @@ const AddStudent = () => {
                 onChange={handleInput}
               />
             </div>
-            <div className="w-full md:w-1/2 px-3">
-              <label
-                className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ${labelDark}`}
-                htmlFor="grid-last-name"
-              >
-                {"year"}
-              </label>
-              <input
-                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${dark}`}
-                id="grid-last-name"
-                type={"text"}
-                placeholder="year"
-                name="year"
+
+            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 mt-6">
+              <select
+                className={`block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none :border-gray-500`}
+                id="grid-state"
                 value={year}
-                onChange={handleInput}
-              />
+                onChange={(e) => {
+                  final((o) => {
+                    let ob1 = { ...o };
+                    ob1.year = e.target.value;
+                    return ob1;
+                  });
+                }}
+              >
+                <option>Select year</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg
+                  className="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-2">
@@ -104,46 +115,20 @@ const AddStudent = () => {
               />
             </div>
 
-            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label
-                className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ${labelDark}`}
-                htmlFor="grid-city"
-              >
-                {"role"}
-              </label>
-              <input
-                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${dark}`}
-                id="grid-city"
-                type={"text"}
-                placeholder="role"
-                name="role"
-                value={role}
-                onChange={handleInput}
-              />
-            </div>
-
-            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label
-                className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ${labelDark}`}
-                htmlFor="grid-state"
-              >
-                Department
-              </label>
-              <input
-                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${dark}`}
-                id="grid-city"
-                type={"text"}
-                placeholder="department"
-                name="department"
-                value={department}
-                onChange={handleInput}
-              />
-              {/* <div className="relative">
+            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 mt-6">
               <select
-                className={`block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none :border-gray-500 ${dark}`}
+                className={`block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none :border-gray-500`}
                 id="grid-state"
-                onChange={handleInput}
+                value={department}
+                onChange={(e) => {
+                  final((o) => {
+                    let ob1 = { ...o };
+                    ob1.department = e.target.value;
+                    return ob1;
+                  });
+                }}
               >
+                <option>Select a branch</option>
                 <option>CSE</option>
                 <option>Mechanical</option>
                 <option>Electrical</option>
@@ -159,7 +144,6 @@ const AddStudent = () => {
                   <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                 </svg>
               </div>
-            </div> */}
             </div>
           </div>
 

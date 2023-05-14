@@ -16,7 +16,7 @@ const App = () => {
     if (window.location.pathname === "/login") return;
     (async () => {
       try {
-        const resp = await AxiosInstance.get("/api/v1/me");
+        const resp = await AxiosInstance.get("api/v1/me");
       } catch (err) {
         console.log("Not logged in");
         window.location.pathname = "/login";

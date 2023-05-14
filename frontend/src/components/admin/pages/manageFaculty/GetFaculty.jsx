@@ -26,7 +26,7 @@ const GetFaculty = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 dark:bg-main-dark-bg text-white rounded-3xl">
       <Header
-        title="Get All Admin"
+        title="Modify Faculty"
         description="To get the list of all the admin"
       />
 

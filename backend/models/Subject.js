@@ -18,6 +18,9 @@ const subject = new mongoose.Schema({
     type: String,
     required: true,
   },
+  department:{
+    type: String,
+  },
   attendence: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "attendence",

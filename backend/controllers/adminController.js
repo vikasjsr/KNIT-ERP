@@ -10,9 +10,9 @@ import {Department} from "../models/Department.js"
 
 // create admin
 export const createAdmin = catchAsyncError(async (req, res, next) => {
-  const { email, password, role } = req.body;
+  const { email, password } = req.body;
 
-  if (!email || !password || !role)
+  if (!email || !password)
     return next(new ErrorHandler("Please enter all field", 400));
 
   const existingAdmin = await Admin.findOne({ email });
@@ -24,13 +24,12 @@ export const createAdmin = catchAsyncError(async (req, res, next) => {
   const admin = await Admin.create({
     email,
     hashedPassword,
-    role,
   });
 
   await Login.create({
     email,
     hashedPassword,
-    role,
+    role:"admin",
   });
 
   const token = admin.getJWTToken();
@@ -38,7 +37,6 @@ export const createAdmin = catchAsyncError(async (req, res, next) => {
   const options = {
     expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    // secure: true,
     sameSite: "none",
   };
 
@@ -51,9 +49,9 @@ export const createAdmin = catchAsyncError(async (req, res, next) => {
 
 //add faculty
 export const createFaculty = catchAsyncError(async (req, res, next) => {
-  const { email, password, role, department } = req.body;
+  const { email, password, department } = req.body;
 
-  if (!(email && password && role && department))
+  if (!(email && password && department))
     return next(new ErrorHandler("Please enter all field", 400));
 
   const existingFaculty = await Faculty.findOne({ email });
@@ -65,14 +63,13 @@ export const createFaculty = catchAsyncError(async (req, res, next) => {
   const faculty = await Faculty.create({
     email,
     hashedPassword,
-    role,
     department,
   });
 
   await Login.create({
     email,
     hashedPassword,
-    role,
+    role:"faculty",
   });
 
   const token = faculty.getJWTToken();
@@ -93,9 +90,9 @@ export const createFaculty = catchAsyncError(async (req, res, next) => {
 
 //add Student
 export const createStudent = catchAsyncError(async (req, res, next) => {
-  const { email, password, role, year, department } = req.body;
+  const { email, password, year, department } = req.body;
 
-  if (!email || !password || !role || !year || !department)
+  if (!email || !password || !year || !department)
     return next(new ErrorHandler("Please enter all field", 400));
 
   const existingStudent = await Student.findOne({ email });
@@ -107,7 +104,6 @@ export const createStudent = catchAsyncError(async (req, res, next) => {
   const student = await Student.create({
     email,
     hashedPassword,
-    role,
     department,
     year,
   });
@@ -115,7 +111,7 @@ export const createStudent = catchAsyncError(async (req, res, next) => {
   await Login.create({
     email,
     hashedPassword,
-    role,
+    role:"student",
   });
 
   const token = student.getJWTToken();
@@ -236,7 +232,7 @@ export const addSubjectToDepat = catchAsyncError(async (req, res, next) => {
 
 export const addSubject = catchAsyncError(async (req, res, next) => {
 
-  const { totalLectures, subjectCode, subjectName, semester } = req.body;
+  const { totalLectures, subjectCode, subjectName, semester, department } = req.body;
   const existingSubject = await Subject.findOne({ subjectCode });
 
   if(existingSubject) return next(new ErrorHandler("Either Subject is present already or check your subjectCode", 400));
@@ -246,6 +242,7 @@ export const addSubject = catchAsyncError(async (req, res, next) => {
     subjectCode,
     semester,
     totalLectures,
+    department
   });
 
   res.status(200).json({
@@ -282,10 +279,11 @@ export const getAllFacultiesDept = catchAsyncError(async (req, res, next) => {
 // get all students by dept.
 export const getAllStudentsDept = catchAsyncError(async (req, res, next) => {
 
-  const {department} =  req.query;
-  if(!department) return next(new ErrorHandler("Please enter the department", 400));
+  const {department, year} =  req.query;
   
-  const students = await Student.find({department});
+  if(!department || !year) return next(new ErrorHandler("Please enter the department", 400));
+  
+  const students = await Student.find({department, year});
 
   res.status(200).json({
     success: true,
